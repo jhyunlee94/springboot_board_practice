@@ -23,20 +23,10 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardDto selectBoardDetail(int boardIdx) throws Exception {
-        boardMapper.updateHitCount(boardIdx);
-
-        BoardDto board = boardMapper.selectBoardDetail(boardIdx);
-
+        boardMapper.updateHitCount(boardIdx); // 선택된 게시글의 조회수 증가
+        BoardDto board = boardMapper.selectBoardDetail(boardIdx); // 선택된 게시글의 내용을 조회
         return board;
     }
-    @Override
-    public void updateBoard(BoardDto board) throws Exception {
-        boardMapper.updateBoard(board);
-    }
 
-    @Override
-    public void deleteBoard(int boardIdx) throws Exception {
-        boardMapper.deleteBoard(boardIdx);
-    }
 
 }
