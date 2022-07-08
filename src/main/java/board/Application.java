@@ -2,10 +2,11 @@ package board;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude={MultipartAutoConfiguration.class})
 public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class,args); //이게 스프링부트를 실행하기위한 메인이야
+        SpringApplication.run(Application.class,args);
     }
 }

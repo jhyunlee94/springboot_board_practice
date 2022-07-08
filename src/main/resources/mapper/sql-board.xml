@@ -21,24 +21,73 @@
 
 
     </select>
+<!--#{변수} DTO의 get 변수 메소드로 해당 변수 값을 가져옴-->
+    <insert id="insertBoard" parameterType="board.dto.BoardDto" useGeneratedKeys="true" keyProperty="boardIdx">
+        <![CDATA[
+            INSERT INTO t_board
+            (
+                title,
+                contents,
+                created_datetime,
+                creator_id
+            )
+            VALUE
+            (
+                #{title},
+                #{contents},
+                NOW(),
+                'admin'
+            )
+        ]]>
+    </insert>
 
-<!--    <insert id="insertBoard" parameterType="board.dto.BoardDto">-->
-<!--        <![CDATA[-->
-<!--            INSERT INTO t_board-->
-<!--            (-->
-<!--                title,-->
-<!--                contents,-->
-<!--                created_datetime,-->
-<!--                creator_id-->
-<!--            )-->
-<!--            VALUE-->
-<!--            (-->
-<!--                #{title},-->
-<!--                #{contents},-->
-<!--                NOW(),-->
-<!--                'admin'-->
-<!--            )-->
-<!--        ]]>-->
-<!--    </insert>-->
+    <insert id="insertBoardFileList" parameterType="board.dto.BoardFileDto">
+        <![CDATA[
+            INSERT INTO t_file
+			(
+				board_idx,
+				original_file_name,
+				stored_file_path,
+				file_size,
+				creator_id,
+				created_datetime
+			)
+			VALUES
+        ]]>
+        <foreach collection="list" item="item" separator=",">
+            (
+              #{item.boardIdx},
+              #{item.originalFileName},
+              #{item.storedFilePath},
+              #{item.fileSize},
+              'admin',
+               NOW()
+            )
+        </foreach>
 
+    </insert>
+
+    <update id="updateBoard" parameterType="board.dto.BoardDto">
+        <![CDATA[
+            UPDATE
+                t_board
+            SET
+                title = #{title},
+                contents = #{contents},
+                updated_datetime = NOW(),
+                updater_id = 'admin'
+            WHERE
+                board_idx = #{boardIdx}
+        ]]>
+    </update>
+
+    <delete id="deleteBoard" parameterType="int">
+        <![CDATA[
+            DELETE
+            FROM
+                t_board
+            WHERE
+                board_idx = #{boardIdx}
+        ]]>
+    </delete>
 </mapper>
